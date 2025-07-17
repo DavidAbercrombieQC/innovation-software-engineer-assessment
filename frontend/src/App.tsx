@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import IssuesContainer from './containers/IssuesContainer';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         
         {/* TODO: Implement your issue tracking application here */}
         <div className="bg-white rounded-lg shadow-md p-6">
+          <IssuesContainer />
           {issues.map(issue => (
             <div key={issue.id} className="mb-4 p-4 border rounded">
               <h2 className="text-xl font-semibold">{issue.title}</h2>
