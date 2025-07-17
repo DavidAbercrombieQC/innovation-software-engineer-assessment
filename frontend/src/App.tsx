@@ -1,6 +1,19 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 
 function App() {
+
+  const [issues, setIssues] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetchIssues();
+  }, []);
+
+  const fetchIssues = () => {
+    fetch('http://localhost:3001/api/issues')
+      .then(response => response.json())
+      .then(issues => setIssues(Array.isArray(issues) ? issues : []))
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
@@ -8,6 +21,13 @@ function App() {
         
         {/* TODO: Implement your issue tracking application here */}
         <div className="bg-white rounded-lg shadow-md p-6">
+          {issues.map(issue => (
+            <div key={issue.id} className="mb-4 p-4 border rounded">
+              <h2 className="text-xl font-semibold">{issue.title}</h2>
+              <p className="text-gray-700">{issue.description}</p>
+              <p className="text-sm text-gray-500">Priority: {issue.priority} | Status: {issue.status}</p>
+            </div>
+          ))}
           <p className="text-gray-600">
             Welcome to the Issue Tracker! Please implement the following features:
           </p>
