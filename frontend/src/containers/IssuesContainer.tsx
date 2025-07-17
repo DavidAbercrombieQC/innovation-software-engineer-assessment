@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import IssuesList from "../components/IssuesList";
+import IssueForm from "../components/IssueForm";
 
 const IssuesContainer: React.FC = () => {
 
@@ -26,6 +27,8 @@ const IssuesContainer: React.FC = () => {
         <>
             <h1>This is the issues container.</h1>
             <IssuesList issues = {issues} />
+            <h2>Create a new issue:</h2>
+            <IssueForm />
         </>
     );
 }
