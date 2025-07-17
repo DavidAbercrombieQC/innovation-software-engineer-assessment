@@ -18,25 +18,24 @@ const IssueForm = ({onIssueSubmit}) => {
         setPriority(evt.target.value);
     };
 
-    const handleFormSubmit = (evt) => {
-        evt.preventDefault();
-        const titleToSubmit = title.trim();
-        const descriptionToSubmit = description.trim();
-        const priorityToSubmit = priority.trim();
-        if (!titleToSubmit || !descriptionToSubmit || !priorityToSubmit) {
-            return;
-        }
-
-        onIssueSubmit({
-            title: title,
-            description: description,
-            priority: priority,
-            status: 'Open'
-        });
-
+    const resetForm = () => {
         setTitle("");
         setDescription("");
         setPriority("");
+    };
+
+    const handleFormSubmit = (evt) => {
+        evt.preventDefault();
+        const payload = {
+            title,
+            description,
+            priority,
+            status: 'Open'
+        };
+
+        onIssueSubmit(payload);
+
+        resetForm();
     }
 
     return (

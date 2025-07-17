@@ -1,32 +1,31 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import IssuesList from "../components/IssuesList";
 import IssueForm from "../components/IssueForm";
 
 const IssuesContainer: React.FC = () => {
 
-    const [issues, setIssues] = useState<any[]>(
-        [
-            {
-                id: 2,
-                title: 'Example Issue 2',
-                description: 'This is another issue description.',
-                priority: 'Medium',
-                status: 'Open'
-            },
-            {
-                id: 3,
-                title: 'Example Issue 3',
-                description: 'This is a third issue description.',
-                priority: 'Low',
-                status: 'Closed'
-            },
-        ]
-    );
+    const [issues, setIssues] = useState<any[]>([]);
 
-    const addIssue = (submittedIssue) => {
-        submittedIssue.id = Math.floor(Math.random() * 10000);
-        const updatedIssues = [...issues, submittedIssue];
-        setIssues(updatedIssues);
+    useEffect(() => {
+        fetchIssues();
+    }, []);
+
+    const fetchIssues = () => {
+        fetch('http://localhost:3001/api/issues')
+            .then(response => response.json())
+            .then(issues => setIssues(issues))
+            .catch(error => console.error('Error fetching issues:', error));
+    }
+
+    const handleIssueSubmit = (newIssue) => {
+        fetch('http://localhost:3001/api/issues', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newIssue),
+        })
+        .then(() => fetchIssues())
     }
 
     return (
@@ -34,7 +33,7 @@ const IssuesContainer: React.FC = () => {
             <h1>This is the issues container.</h1>
             <IssuesList issues = {issues} />
             <h2>Create a new issue:</h2>
-            <IssueForm onIssueSubmit={(issue) => addIssue(issue)}/>
+            <IssueForm onIssueSubmit={handleIssueSubmit}/>
         </>
     );
 }
