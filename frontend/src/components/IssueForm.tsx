@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-const IssueForm = () => {
+const IssueForm = ({onIssueSubmit}) => {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -27,7 +27,12 @@ const IssueForm = () => {
             return;
         }
 
-        // TODO: Update the issues state in IssuesContainer with the new issue
+        onIssueSubmit({
+            title: title,
+            description: description,
+            priority: priority,
+            status: 'Open'
+        });
 
         setTitle("");
         setDescription("");
